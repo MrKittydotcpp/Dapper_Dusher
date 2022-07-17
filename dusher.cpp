@@ -16,10 +16,10 @@ int main()
     // nebula 
 
     Texture2D nebula = LoadTexture ("textures/12_nebula_spritesheet.png");
-    Rectangle nebulaRec;
-    nebulaRec.width = nebula.width/9;
-    nebulaRec.height = nebula.height/9;
-    
+    Rectangle nebulaRec{0.0,0.0,nebula.width/8,nebula.height/8};
+    Vector2 nebulaPos{window_Weight, window_Height - nebulaRec.height};
+
+    int nebulaVel{-600};
 
     // Scarfy
     Texture2D scarfy = LoadTexture ("textures/scarfy.png");
@@ -67,35 +67,44 @@ int main()
             // rectangle is in the air
             // apply gravity
             velocity += gravity * dT;
-            isInAir = true;
+            isInAir = true; 
 
         }
         
-
+        // jump check
         if (IsKeyPressed(KEY_SPACE) && !isInAir)
         {
             velocity += jumpVel;
         }
 
+        // update nebula position
+        nebulaPos.x += nebulaVel * dT;
          
         // update position
         scarfyPos.y += velocity * dT;
 
-        // update running time
-        runningTime += dT;
-        if (runningTime >= updateTime)
+        if (!isInAir)
         {
-            runningTime = 0.0;
-             // update animation frame
-            scarfyRec.x = frame * scarfyRec.width;
-            frame++;
-            if (frame > 5)
+                // update running time
+            runningTime += dT;
+            if (runningTime >= updateTime)
             {
-                frame = 0;
+                runningTime = 0.0;
+                // update animation frame
+                scarfyRec.x = frame * scarfyRec.width;
+                frame++;
+                if (frame > 5)
+                {
+                    frame = 0;
+                }
+                
             }
-            
         }
         
+        
+        // draw nebula 
+        DrawTextureRec(nebula,nebulaRec,nebulaPos, WHITE);
+        // draw scarfy
         DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
         
         // stop drawing
