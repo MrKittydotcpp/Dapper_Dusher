@@ -1,5 +1,4 @@
 #include "raylib.h"
-// some changes
 
 int main()
 {
@@ -19,7 +18,13 @@ int main()
     Rectangle nebulaRec{0.0,0.0,nebula.width/8,nebula.height/8};
     Vector2 nebulaPos{window_Weight, window_Height - nebulaRec.height};
 
-    int nebulaVel{-600};
+     // animation nebula
+    int nebula_frame{};
+    // amount of the time before we update the animations
+    const float nebula_updateTime{1.0/24.0};
+    float nebula_runningTime{};
+
+    int nebulaVel{-300};
 
     // Scarfy
     Texture2D scarfy = LoadTexture ("textures/scarfy.png");
@@ -39,7 +44,7 @@ int main()
     
     int velocity{0};
 
-    // animation frame
+    // animation frame scarfy
     int frame{};
     // amount of the time before we update the animations
     const float updateTime{1.0/12.0};
@@ -68,7 +73,6 @@ int main()
             // apply gravity
             velocity += gravity * dT;
             isInAir = true; 
-
         }
         
         // jump check
@@ -83,6 +87,7 @@ int main()
         // update position
         scarfyPos.y += velocity * dT;
 
+        // update scurfy's animations frame
         if (!isInAir)
         {
                 // update running time
@@ -96,11 +101,23 @@ int main()
                 if (frame > 5)
                 {
                     frame = 0;
-                }
-                
+                }   
             }
         }
         
+        // nebula animations frame 
+        nebula_runningTime += dT;
+        if (nebula_runningTime >= nebula_updateTime)
+        {
+            nebula_runningTime = 0.0;
+            nebulaRec.x = nebula_frame * nebulaRec.width;
+            nebula_frame++;
+            if (frame > 7)
+            {
+                frame = 0;
+            }
+            
+        }
         
         // draw nebula 
         DrawTextureRec(nebula,nebulaRec,nebulaPos, WHITE);
