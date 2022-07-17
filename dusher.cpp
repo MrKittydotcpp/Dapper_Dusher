@@ -18,11 +18,18 @@ int main()
     Rectangle nebulaRec{0.0,0.0,nebula.width/8,nebula.height/8};
     Vector2 nebulaPos{window_Weight, window_Height - nebulaRec.height};
 
+    Rectangle nebula2Rec{0.0,0.0,nebula.width/8,nebula.height/8};
+    Vector2 nebula2Pos{window_Weight + 600, window_Height - nebulaRec.height};
+ 
      // animation nebula
     int nebula_frame{};
     // amount of the time before we update the animations
     const float nebula_updateTime{1.0/24.0};
     float nebula_runningTime{};
+
+    int nebula2_frame{};
+    const float nebula2_updateTime{1.0/28.0};
+    float nebula2_runningTime{};
 
     int nebulaVel{-300};
 
@@ -83,6 +90,9 @@ int main()
 
         // update nebula position
         nebulaPos.x += nebulaVel * dT;
+
+        // update the second nebula's position
+        nebula2Pos.x += nebulaVel * dT;
          
         // update position
         scarfyPos.y += velocity * dT;
@@ -118,9 +128,29 @@ int main()
             }
             
         }
+
+        nebula2_runningTime += dT;
+        if (nebula2_runningTime >= nebula2_updateTime)
+        {
+            nebula2_runningTime = 0.0;
+            nebula2Rec.x = nebula2_frame * nebula2Rec.width;
+            nebula2_frame++;
+            if (frame > 7)
+            {
+                frame = 0;
+            }
+            
+        }
         
         // draw nebula 
         DrawTextureRec(nebula,nebulaRec,nebulaPos, WHITE);
+        // draw the second nebula
+        while (true)
+        {
+          DrawTextureRec(nebula,nebula2Rec,nebula2Pos,WHITE);
+        }
+        
+        
         // draw scarfy
         DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
         
