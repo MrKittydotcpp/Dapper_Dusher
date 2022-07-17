@@ -12,7 +12,16 @@ int main()
 
     // acceleration due to gravity (pixels/s)/s
     const int gravity{1'000};
+    
+    // nebula 
 
+    Texture2D nebula = LoadTexture ("textures/12_nebula_spritesheet.png");
+    Rectangle nebulaRec;
+    nebulaRec.width = nebula.width/9;
+    nebulaRec.height = nebula.height/9;
+    
+
+    // Scarfy
     Texture2D scarfy = LoadTexture ("textures/scarfy.png");
     Rectangle scarfyRec;
     scarfyRec.width = scarfy.width/6;
@@ -36,7 +45,7 @@ int main()
     const float updateTime{1.0/12.0};
     float runningTime{};
 
-    SetTargetFPS(60);
+    SetTargetFPS(120);
 
     while (!WindowShouldClose())
     {   
@@ -93,5 +102,6 @@ int main()
         EndDrawing();
     }    
     UnloadTexture(scarfy);
+    UnloadTexture(nebula);
     CloseWindow();
 }
