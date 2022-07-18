@@ -22,8 +22,26 @@ int main()
     const int gravity{1'000};
     
     // nebula 
-
     Texture2D nebula = LoadTexture ("textures/12_nebula_spritesheet.png");
+
+    // AnimData for nebula
+    AnimData nebulaData{
+        {0.0, 0.0, nebula.width/8, nebula.height/8}, // Rectabgel rec
+        {window_Weight, window_Height - nebulaData.rec.height/8}, // Vector2 pos
+        0, // int frame 
+        1.0/24.0, // float updateTIme
+        0 // float runningTime
+    }; 
+
+     AnimData nebula2Data{
+        {0.0, 0.0, nebula.width/8, nebula.height/8}, // Rectabgel rec
+        {window_Weight, window_Height + 600 - nebulaData.rec.height/8}, // Vector2 pos
+        0, // int frame 
+        1.0/22.0, // float updateTIme
+        0 // float runningTime
+    }; 
+
+
     Rectangle nebulaRec{0.0,0.0,nebula.width/8,nebula.height/8};
     Vector2 nebulaPos{window_Weight, window_Height - nebulaRec.height};
 

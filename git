@@ -1,0 +1,30 @@
+[33mcommit aefdce9f7832eb0c2958f0b84f401d0271a8606e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Anatoliy <rogoznikovanatolij@gmail.com>
+Date:   Sun Jul 17 19:18:32 2022 +0200
+
+    Animating The Hazard
+    
+    Created nebula animation variables
+    Animated the nebula hazard
+
+[33mcommit 168c5b018d17a551b3d09d3df1a4a9f98dcb74c0[m
+Author: Anatoliy <rogoznikovanatolij@gmail.com>
+Date:   Sun Jul 17 17:30:46 2022 +0200
+
+    Moving the Hazard
+    
+    Loaded texture for nebula hazard
+    Set up nebula movement
+    Froze scarfy's animation while in the air
+
+[33mcommit b0e6eaa776186c0007321edae744354cdffebf31[m
+Author: Anatoliy <rogoznikovanatolij@gmail.com>
+Date:   Sun Jul 17 16:45:30 2022 +0200
+
+    Hazards
+
+[33mcommit bb6199fecbefd5225dc74706a1715b9c247d03b0[m
+Author: Anatoliy <rogoznikovanatolij@gmail.com>
+Date:   Sun Jul 17 15:39:33 2022 +0200
+
+    Animating Scarfy
