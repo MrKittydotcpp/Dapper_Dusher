@@ -9,6 +9,29 @@ struct AnimData
     float runningTime;
 };
 
+bool isOnGround(AnimData data, int WindowHeight)
+{
+    return data.pos.y >= WindowHeight - data.rec.height;
+}
+
+AnimData updateAnimData(AnimData data, float deltaTime, int maxFrame)
+{
+    //update running time
+    data.runningTime += deltaTime;
+    if (data.runningTime >= data.udpateTime)
+    {
+        data.runningTime = 0.0;
+        // update animation frame 
+        data.rec.x = data.frame * data.rec.width;
+        data.frame++;
+        if (data.frame > maxFrame)
+        {
+            data.frame = 0;
+        }   
+    }
+    return data;
+}
+
 int main()
 {
     int windowDimensions[2]{1280,820};
@@ -23,7 +46,7 @@ int main()
     Texture2D nebula = LoadTexture ("textures/12_nebula_spritesheet.png");
 
     // AnimData for nebula
-    const int sizeOfNebulae{6};
+    const int sizeOfNebulae{10};
 
     AnimData nebulae[sizeOfNebulae]{};
     for (int i = 0; i < sizeOfNebulae; i++)
@@ -34,8 +57,9 @@ int main()
         nebulae[i].rec.height = nebula.height/8;
         nebulae[i].pos.y = windowDimensions[1] - nebula.height/8;
         nebulae[i].frame = 0;
-        nebulae[i].udpateTime = 0.0;
+        nebulae[i].udpateTime = 1.0/24.0;
         nebulae[i].runningTime = 0.0;
+
         nebulae[i].pos.x = windowDimensions [0] + i * 400;
     }
  
@@ -58,21 +82,22 @@ int main()
     bool isInAir{};
     // jump velocity(pixels/second)
     const int jumpVel{-600};
-    
+
     int velocity{0};
 
-    SetTargetFPS(120);
+    SetTargetFPS(60);
 
     while (!WindowShouldClose())
-    {   
+    {
+
+        const float dT{GetFrameTime()};
+
         // start drawing
         BeginDrawing();
         ClearBackground(WHITE);
 
-        const float dT{ GetFrameTime()};
-
         // perform ground check
-        if (scarfyData.pos.y >= windowDimensions[1] - scarfyData.rec.height)
+        if (isOnGround(scarfyData, windowDimensions[1]))
         {
             // rectangle is on the ground
             velocity = 0;
@@ -105,41 +130,19 @@ int main()
         // update scurfy's animations frame
         if (!isInAir)
         {
-            // update running time
-            scarfyData.runningTime += dT;
-            if (scarfyData.runningTime >= scarfyData.udpateTime)
-            {
-                scarfyData.runningTime = 0.0;
-                // update animation frame
-                scarfyData.rec.x = scarfyData.frame * scarfyData.rec.width;
-                scarfyData.frame++;
-                if (scarfyData.frame > 5)
-                {
-                    scarfyData.frame = 0;
-                }   
-            }
+           scarfyData = updateAnimData(scarfyData, dT, 5);
         }
         
         for (int i = 0; i < sizeOfNebulae; i++)
         {
             // nebula animations frame 
-            nebulae[i].runningTime += dT;
-            if (nebulae[i].runningTime >= nebulae[i].udpateTime)
-            {
-                nebulae[i].runningTime = 0.0;
-                nebulae[i].rec.x = nebulae[i].frame * nebulae[i].rec.width;
-                nebulae[i].frame++;
-                if (nebulae[i].frame > 7)
-                {
-                    nebulae[i].frame = 0;
-                }
-            }
+          nebulae[i] = updateAnimData(nebulae[i], dT, 7);   
         }
         
          // draw nebula 
         for (int i = 0; i < sizeOfNebulae; i++)
         {
-            DrawTextureRec(nebula,nebulae[i].rec,nebulae[i].pos, WHITE++);
+            DrawTextureRec(nebula,nebulae[i].rec,nebulae[i].pos,WHITE);
         }
         // draw scarfy
         DrawTextureRec(scarfy, scarfyData.rec, scarfyData.pos, WHITE);
