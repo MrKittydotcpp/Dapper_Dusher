@@ -34,7 +34,7 @@ AnimData updateAnimData(AnimData data, float deltaTime, int maxFrame)
 
 int main()
 {
-    int windowDimensions[2]{1280,820};
+    int windowDimensions[2]{1280,960};
 
     // initialize the window
     InitWindow(windowDimensions[0],windowDimensions[1], "Depper Dasher");
@@ -85,6 +85,9 @@ int main()
 
     int velocity{0};
 
+    Texture2D background = LoadTexture ("textures/far-buildings.png");
+    float bgX{};
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
@@ -96,6 +99,13 @@ int main()
         BeginDrawing();
         ClearBackground(WHITE);
 
+        // draw the background
+        // void DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint)
+        Vector2 backPos{bgX, 0.0};
+        DrawTextureEx(background, backPos, 0.0, 5.0, WHITE);
+
+        bgX -= 20 * dT;
+        
         // perform ground check
         if (isOnGround(scarfyData, windowDimensions[1]))
         {
